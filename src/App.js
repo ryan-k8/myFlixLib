@@ -1,10 +1,10 @@
-import logo from "./logo.svg";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
-    <div className="App bg-gray-600">
-      <div className="flex w-100 h-[100vh] justify-center items-center">
-        <img src={logo} className="animate-spin w-80  h-100" alt="alt" />
+    <div className="App__wrapper">
+      <div className="App  dark:bg-gray-800 h-screen w-100">
+        <Navbar />
       </div>
     </div>
   );
