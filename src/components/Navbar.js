@@ -2,8 +2,9 @@ import { useState, useRef } from "react";
 import { RiMovieFill } from "react-icons/ri";
 import { RiMenu3Fill } from "react-icons/ri";
 import { RiCloseFill } from "react-icons/ri";
+import { MdDarkMode, MdLightMode } from "react-icons/md";
 
-export default function Navbar() {
+export default function Navbar({ mode, changeMode }) {
   const [open, setOpen] = useState(false);
   const mobileNavRef = useRef();
 
@@ -40,6 +41,21 @@ export default function Navbar() {
                   Logout
                 </a>
               </li>
+              <div>
+                {mode === "light" ? (
+                  <MdDarkMode
+                    size={45}
+                    className="cursor-pointer"
+                    onClick={() => changeMode("dark")}
+                  />
+                ) : (
+                  <MdLightMode
+                    size={45}
+                    className="cursor-pointer text-white"
+                    onClick={() => changeMode("light")}
+                  />
+                )}
+              </div>
               <div className="md:hidden relative">
                 <div
                   className="absolute hidden bottom-[-20px] top-[3.2rem] z-5 h-[10rem] rounded-md transition-all w-[90vw] sm:w-[70vw]  right-2 p-5 text-black shadow-2xl shadow-indigo-600/15 border-3 border-slate-200 bg-white dark:bg-gray-700 dark:text-white w-[90vw] dark:border-none "
