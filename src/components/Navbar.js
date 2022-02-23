@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { RiMovieFill } from "react-icons/ri";
 import { RiMenu3Fill } from "react-icons/ri";
 import { RiCloseFill } from "react-icons/ri";
@@ -12,6 +12,24 @@ export default function Navbar({ mode, changeMode }) {
     setOpen(!open);
     mobileNavRef.current.classList.toggle("hidden");
   };
+
+  const handleClickOutside = (event) => {
+    if (
+      mobileNavRef.current &&
+      !mobileNavRef.current.contains(event.target) &&
+      !mobileNavRef.current.classList.contains("hidden")
+    ) {
+      setOpen(false);
+      mobileNavRef.current.classList.add("hidden");
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside, true);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, []);
 
   return (
     <nav className="shadow-md w-full fixed top-0 left-0 ">
