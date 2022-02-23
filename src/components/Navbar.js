@@ -3,6 +3,7 @@ import { RiMovieFill } from "react-icons/ri";
 import { RiMenu3Fill } from "react-icons/ri";
 import { RiCloseFill } from "react-icons/ri";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
+import { NavLink, useLocation } from "react-router-dom";
 
 export default function Navbar({ mode, changeMode }) {
   const [open, setOpen] = useState(false);
@@ -12,6 +13,8 @@ export default function Navbar({ mode, changeMode }) {
     setOpen(!open);
     mobileNavRef.current.classList.toggle("hidden");
   };
+
+  const { pathname } = useLocation();
 
   const handleClickOutside = (event) => {
     if (
@@ -32,7 +35,7 @@ export default function Navbar({ mode, changeMode }) {
   }, []);
 
   return (
-    <nav className="shadow-md w-full fixed top-0 left-0 ">
+    <nav className="shadow-md w-full">
       <div className="container py-3 mx-auto px-5">
         <div className="flex justify-between items-center">
           <div className="App__logo">
@@ -44,14 +47,24 @@ export default function Navbar({ mode, changeMode }) {
           <div className="Nav__links">
             <ul className="h-full flex flex-row gap-5 justify-between items-center">
               <li className="hidden md:block cursor-pointer">
-                <a className="text-2xl p-2 dark:text-white border-b-4 hover:border-indigo-600 border-transparent transition-colors dark:hover:border-blue-400 ">
+                <NavLink
+                  to="/"
+                  className={`text-2xl p-2 rounded-lg dark:text-white border-b-4 hover:border-indigo-600 border-transparent transition-colors dark:hover:border-blue-400 ${
+                    pathname === "/" ? "bg-blue-500" : ""
+                  }`}
+                >
                   Home
-                </a>
+                </NavLink>
               </li>
               <li className="hidden md:block cursor-pointer">
-                <a className=" text-2xl p-2 dark:text-white border-b-4 hover:border-indigo-600 border-transparent transition-colors dark:hover:border-blue-400 ">
+                <NavLink
+                  to="/profile"
+                  className={`text-2xl rounded-lg p-2 dark:text-white border-b-4 hover:border-indigo-600 border-transparent transition-colors dark:hover:border-blue-400 ${
+                    pathname === "/profile" ? "bg-blue-500" : ""
+                  }`}
+                >
                   Profile
-                </a>
+                </NavLink>
               </li>
 
               <li className="hidden md:block cursor-pointer">
@@ -81,14 +94,20 @@ export default function Navbar({ mode, changeMode }) {
                 >
                   <ul className="flex flex-col h-14">
                     <li className="p-1 rounded-md transition-colors hover:bg-indigo-600 dark:hover:bg-blue-400">
-                      <a className="text-xl px-1 dark:text-white cursor-pointer">
+                      <NavLink
+                        to="/"
+                        className="text-xl px-1 dark:text-white cursor-pointer"
+                      >
                         Home
-                      </a>
+                      </NavLink>
                     </li>
                     <li className="p-1 rounded-md transition-colors hover:bg-indigo-600  dark:hover:bg-blue-400">
-                      <a className="text-xl px-1 dark:text-white cursor-pointer">
+                      <NavLink
+                        to="/profile"
+                        className="text-xl px-1 dark:text-white cursor-pointer"
+                      >
                         Profile
-                      </a>
+                      </NavLink>
                     </li>
                     <li className="p-1 rounded-md transition-colors hover:bg-indigo-600 dark:hover:bg-blue-400">
                       <a className="text-xl px-1 dark:text-white cursor-pointer">
