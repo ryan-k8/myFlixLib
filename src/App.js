@@ -3,6 +3,9 @@ import Navbar from "./components/Navbar";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Error from "./pages/Error";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 //pages
 import Home from "./pages/Home/Home";
 import Profile from "./pages/Profile/Profile";
@@ -29,15 +32,11 @@ function App() {
 
             <Route
               path="*"
-              element={
-                <Navigate
-                  to="/error"
-                  replace
-                  state={{ message: "Page Not Found" }}
-                />
-              }
+              element={<Navigate to="/error" replace state={{ message: "Page Not Found" }} />}
             />
           </Routes>
+
+          <ToastContainer />
         </BrowserRouter>
       </div>
     </div>
