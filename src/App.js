@@ -10,6 +10,9 @@ import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/Home/Home";
 import Profile from "./pages/Profile/Profile";
 import useTheme from "./hooks/useTheme";
+import Login from "./pages/Login/Login";
+import PrivateRoutes from "./PrivateRoutes";
+import Signup from "./pages/Signup/Signup";
 
 function App() {
   const { themeMode, changeTheme } = useTheme();
@@ -22,10 +25,13 @@ function App() {
 
           <Routes>
             <Route path="/error" element={<Error />} />
-
             <Route path="/" element={<Home />} />
 
-            <Route path="/profile" element={<Profile />} />
+            <Route element={<PrivateRoutes />}>
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+            </Route>
 
             <Route
               path="*"

@@ -4,10 +4,13 @@ import { RiMenu3Fill } from "react-icons/ri";
 import { RiCloseFill } from "react-icons/ri";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 import { NavLink, useLocation } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 export default function Navbar({ mode, changeMode }) {
   const [open, setOpen] = useState(false);
   const mobileNavRef = useRef();
+
+  const { loggedIn } = useAuth();
 
   const toggleMenu = () => {
     setOpen(!open);
@@ -46,32 +49,53 @@ export default function Navbar({ mode, changeMode }) {
           </div>
           <div className="Nav__links">
             <ul className="h-full flex flex-row gap-5 justify-between items-center">
-              <li className="hidden md:block cursor-pointer">
-                <NavLink
-                  to="/"
-                  className={`text-2xl p-2 rounded-lg dark:text-white border-b-4 hover:border-indigo-600 border-transparent transition-colors dark:hover:border-blue-400 ${
-                    pathname === "/" ? "bg-blue-500" : ""
-                  }`}
-                >
-                  Home
-                </NavLink>
-              </li>
-              <li className="hidden md:block cursor-pointer">
-                <NavLink
-                  to="/profile"
-                  className={`text-2xl rounded-lg p-2 dark:text-white border-b-4 hover:border-indigo-600 border-transparent transition-colors dark:hover:border-blue-400 ${
-                    pathname === "/profile" ? "bg-blue-500" : ""
-                  }`}
-                >
-                  Profile
-                </NavLink>
-              </li>
+              {loggedIn && (
+                <>
+                  <li className="hidden md:block cursor-pointer">
+                    <NavLink
+                      to="/"
+                      className={`text-2xl p-2 rounded-lg dark:text-white border-b-4 hover:border-indigo-600 border-transparent transition-colors dark:hover:border-blue-400 `}
+                    >
+                      Home
+                    </NavLink>
+                  </li>
+                  <li className="hidden md:block cursor-pointer">
+                    <NavLink
+                      to="/profile"
+                      className={`text-2xl rounded-lg p-2 dark:text-white border-b-4 hover:border-indigo-600 border-transparent transition-colors dark:hover:border-blue-400`}
+                    >
+                      Profile
+                    </NavLink>
+                  </li>
+                  <li className="hidden md:block cursor-pointer">
+                    <a className=" text-2xl p-2 dark:text-white border-b-4 hover:border-indigo-600 border-transparent transition-colors dark:hover:border-blue-400 ">
+                      Logout
+                    </a>
+                  </li>
+                </>
+              )}
 
-              <li className="hidden md:block cursor-pointer">
-                <a className=" text-2xl p-2 dark:text-white border-b-4 hover:border-indigo-600 border-transparent transition-colors dark:hover:border-blue-400 ">
-                  Logout
-                </a>
-              </li>
+              {!loggedIn && (
+                <>
+                  <li className="hidden md:block cursor-pointer">
+                    <NavLink
+                      to="/login"
+                      className={`text-2xl rounded-lg p-2 dark:text-white border-b-4 hover:border-indigo-600 border-transparent transition-colors dark:hover:border-blue-400`}
+                    >
+                      Login
+                    </NavLink>
+                  </li>
+                  <li className="hidden md:block cursor-pointer">
+                    <NavLink
+                      to="/signup"
+                      className={`text-2xl rounded-lg p-2 dark:text-white border-b-4 hover:border-indigo-600 border-transparent transition-colors dark:hover:border-blue-400`}
+                    >
+                      Signup
+                    </NavLink>
+                  </li>
+                </>
+              )}
+
               <div>
                 {mode === "light" ? (
                   <MdDarkMode
@@ -89,7 +113,7 @@ export default function Navbar({ mode, changeMode }) {
               </div>
               <div className="md:hidden relative">
                 <div
-                  className="absolute hidden bottom-[-20px] top-[3.2rem] z-5 h-[10rem] rounded-md transition-all w-[90vw] sm:w-[70vw]  right-2 p-5 text-black shadow-2xl shadow-indigo-600/15 border-3 border-slate-200 bg-white dark:bg-gray-700 dark:text-white w-[90vw] dark:border-none "
+                  className="absolute hidden bottom-[-20px] top-[3.2rem] z-5 h-[10rem] rounded-md transition-all sm:w-[70vw]  right-2 p-5 text-black shadow-2xl shadow-indigo-600/15 border-3 border-slate-200 bg-white dark:bg-gray-700 dark:text-white w-[90vw] dark:border-none "
                   ref={mobileNavRef}
                 >
                   <ul className="flex flex-col h-14">
