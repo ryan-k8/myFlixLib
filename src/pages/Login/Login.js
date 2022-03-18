@@ -1,9 +1,15 @@
 import { FaSignInAlt } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import useLogin from "../../hooks/useLogin";
+import useToast from "../../hooks/useToast";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { createToast } = useToast(1500);
+  const { login, loading, success, error } = useLogin();
+  const navigate = useNavigate();
 
   const resetForm = () => {
     setEmail("");
@@ -12,10 +18,22 @@ export default function Login() {
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    console.log(email, password);
+
+    login(email, password);
 
     resetForm();
   };
+
+  useEffect(() => {
+    if (success) {
+      createToast("logged in successfully!", "success");
+      navigate("/profile");
+    }
+
+    if (error) {
+      createToast(error, "error");
+    }
+  }, [success, error, navigate]);
 
   return (
     <div className="flex container mt-8  mx-auto justify-center items-center dark:text-white p-7">
@@ -56,7 +74,7 @@ export default function Login() {
             className="p-4 transition-all w-full sm:w-5/12 xl:w-3/12 text-xl font-bold dark:text-white border-[2.3px] bg-indigo-600 rounded-xl hover:bg-indigo-500 hover:translate-y-[-2] dark:bg-blue-400 dark:border-gray-700 dark:hover:bg-blue-500"
             type="submit"
           >
-            Submit
+            {loading ? "Loading" : "Submit"}
           </button>
         </div>
       </form>

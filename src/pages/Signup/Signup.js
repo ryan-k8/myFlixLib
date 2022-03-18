@@ -1,11 +1,18 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa";
+import useSignup from "../../hooks/useSignup";
+import useToast from "../../hooks/useToast";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const { createToast } = useToast(1500);
+  const { signup, loading, success, error } = useSignup();
+  const navigate = useNavigate();
 
   const resetForm = () => {
     setDisplayName("");
@@ -16,10 +23,20 @@ export default function Signup() {
   const handleOnSubmit = (e) => {
     e.preventDefault();
 
-    console.log(displayName, email, password);
-
+    signup(displayName, email, password);
     resetForm();
   };
+
+  useEffect(() => {
+    if (success) {
+      createToast("user created and logged in successfully!", "success");
+      navigate("/");
+    }
+
+    if (error) {
+      createToast(error, "error");
+    }
+  }, [success, error, navigate]);
 
   return (
     <div className="flex container mt-8  mx-auto justify-center items-center dark:text-white p-7">
@@ -71,7 +88,7 @@ export default function Signup() {
             className="p-4 transition-all w-full sm:w-5/12 xl:w-3/12 text-xl font-bold dark:text-white border-[2.3px] bg-indigo-600 rounded-xl hover:bg-indigo-500 hover:translate-y-[-2] dark:bg-blue-400 dark:border-gray-700 dark:hover:bg-blue-500"
             type="submit"
           >
-            Submit
+            {loading ? "Loading" : "Submit"}
           </button>
         </div>
       </form>

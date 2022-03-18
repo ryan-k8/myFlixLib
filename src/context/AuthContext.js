@@ -30,7 +30,6 @@ export function AuthProvider({ children }) {
     const checkAuthOnce = onAuthStateChanged(auth, (user) => {
       dispatch({ type: "AUTH_IS_READY", payload: user });
     });
-
     checkAuthOnce();
   }, []);
 

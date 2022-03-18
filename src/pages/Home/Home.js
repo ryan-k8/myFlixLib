@@ -1,16 +1,17 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import useAuth from "../../hooks/useAuth";
+import useAuthContext from "../../hooks/useAuthContext";
 import useTheme from "../../hooks/useTheme";
 
 export default function Home() {
-  const { loggedIn } = useAuth();
+  const { user } = useAuthContext();
+
   const { themeMode } = useTheme();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!loggedIn) {
+    if (!user) {
       const toastId = "login-redirect-toast";
 
       navigate("/login");
@@ -23,7 +24,7 @@ export default function Home() {
           theme: themeMode,
         });
     }
-  }, [loggedIn]);
+  }, [user, navigate]);
 
   return <div>Home</div>;
 }
