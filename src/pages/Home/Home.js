@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import useAuth from "../../hooks/useAuth";
@@ -8,19 +9,21 @@ export default function Home() {
   const { themeMode } = useTheme();
   const navigate = useNavigate();
 
-  if (!loggedIn) {
-    const toastId = "login-redirect-toast";
+  useEffect(() => {
+    if (!loggedIn) {
+      const toastId = "login-redirect-toast";
 
-    navigate("/login");
+      navigate("/login");
 
-    if (!toast.isActive(toastId))
-      toast.info("Please Login to acess page", {
-        toastId: toastId,
-        position: "top-right",
-        autoClose: 2000,
-        theme: themeMode,
-      });
-  }
+      if (!toast.isActive(toastId))
+        toast.info("Please Login to acess page", {
+          toastId: toastId,
+          position: "top-right",
+          autoClose: 2000,
+          theme: themeMode,
+        });
+    }
+  }, [loggedIn]);
 
   return <div>Home</div>;
 }

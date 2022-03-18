@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import { RiMovieFill } from "react-icons/ri";
 import { RiMenu3Fill } from "react-icons/ri";
 import { RiCloseFill } from "react-icons/ri";
+import { FaSignOutAlt, FaSignInAlt, FaHome, FaUser } from "react-icons/fa";
+
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 import { NavLink, useLocation } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
@@ -17,6 +19,11 @@ export default function Navbar({ mode, changeMode }) {
     mobileNavRef.current.classList.toggle("hidden");
   };
 
+  const closeMobileNav = () => {
+    setOpen(false);
+    mobileNavRef.current.classList.add("hidden");
+  };
+
   const { pathname } = useLocation();
 
   const handleClickOutside = (event) => {
@@ -25,8 +32,7 @@ export default function Navbar({ mode, changeMode }) {
       !mobileNavRef.current.contains(event.target) &&
       !mobileNavRef.current.classList.contains("hidden")
     ) {
-      setOpen(false);
-      mobileNavRef.current.classList.add("hidden");
+      closeMobileNav();
     }
   };
 
@@ -113,31 +119,73 @@ export default function Navbar({ mode, changeMode }) {
               </div>
               <div className="md:hidden relative">
                 <div
-                  className="absolute hidden bottom-[-20px] top-[3.2rem] z-5 h-[10rem] rounded-md transition-all sm:w-[70vw]  right-2 p-5 text-black shadow-2xl shadow-indigo-600/15 border-3 border-slate-200 bg-white dark:bg-gray-700 dark:text-white w-[90vw] dark:border-none "
+                  className={`absolute hidden bottom-[-20px] top-[3.2rem] z-5 h-[${
+                    loggedIn ? "13" : "10"
+                  }rem] rounded-md transition-all sm:w-[70vw]  right-2 p-5 text-black shadow-2xl shadow-indigo-600/15 border-3 border-slate-200 bg-white dark:bg-gray-700 dark:text-white w-[90vw] dark:border-none `}
                   ref={mobileNavRef}
                 >
                   <ul className="flex flex-col h-14">
-                    <li className="p-1 rounded-md transition-colors hover:bg-indigo-600 dark:hover:bg-blue-400">
-                      <NavLink
-                        to="/"
-                        className="text-xl px-1 dark:text-white cursor-pointer"
-                      >
-                        Home
-                      </NavLink>
-                    </li>
-                    <li className="p-1 rounded-md transition-colors hover:bg-indigo-600  dark:hover:bg-blue-400">
-                      <NavLink
-                        to="/profile"
-                        className="text-xl px-1 dark:text-white cursor-pointer"
-                      >
-                        Profile
-                      </NavLink>
-                    </li>
-                    <li className="p-1 rounded-md transition-colors hover:bg-indigo-600 dark:hover:bg-blue-400">
-                      <a className="text-xl px-1 dark:text-white cursor-pointer">
-                        LogOut
-                      </a>
-                    </li>
+                    {loggedIn && (
+                      <>
+                        <li
+                          className="p-1 rounded-md transition-colors hover:bg-indigo-600 dark:hover:bg-blue-400"
+                          onClick={closeMobileNav}
+                        >
+                          <NavLink
+                            to="/"
+                            className="text-xl rounded-md py-1 px-1 flex gap-2 items-center dark:text-white cursor-pointer"
+                          >
+                            <FaHome /> Home
+                          </NavLink>
+                        </li>
+                        <li
+                          className="p-1 rounded-md transition-colors hover:bg-indigo-600  dark:hover:bg-blue-400"
+                          onClick={closeMobileNav}
+                        >
+                          <NavLink
+                            to="/profile"
+                            className="text-xl px-1 py-1 rounded-md flex gap-2 items-center dark:text-white cursor-pointer"
+                          >
+                            <FaUser /> Profile
+                          </NavLink>
+                        </li>
+                        <li
+                          className="p-1 rounded-md transition-colors hover:bg-indigo-600 dark:hover:bg-blue-400"
+                          onClick={closeMobileNav}
+                        >
+                          <a className="text-xl px-1 flex gap-2 items-center dark:text-white cursor-pointer">
+                            <FaSignOutAlt /> LogOut
+                          </a>
+                        </li>
+                      </>
+                    )}
+
+                    {!loggedIn && (
+                      <>
+                        <li
+                          className="p-1 rounded-md transition-colors hover:bg-indigo-600 dark:hover:bg-blue-400"
+                          onClick={closeMobileNav}
+                        >
+                          <NavLink
+                            to="/login"
+                            className="text-xl rounded-md py-1 px-1 flex gap-2 items-center dark:text-white cursor-pointer"
+                          >
+                            <FaSignInAlt /> Login
+                          </NavLink>
+                        </li>
+                        <li
+                          className="p-1 rounded-md transition-colors hover:bg-indigo-600 dark:hover:bg-blue-400"
+                          onClick={closeMobileNav}
+                        >
+                          <NavLink
+                            to="/signup"
+                            className="text-xl px-1 rounded-md py-1 flex gap-2 items-center dark:text-white cursor-pointer"
+                          >
+                            <FaUser /> Signup
+                          </NavLink>
+                        </li>
+                      </>
+                    )}
                   </ul>
                 </div>
                 {open ? (
