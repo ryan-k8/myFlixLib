@@ -4,6 +4,7 @@ import { FaUser } from "react-icons/fa";
 import useSignup from "../../hooks/useSignup";
 import useToast from "../../hooks/useToast";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../../components/Spinner";
 
 export default function Signup() {
   const [displayName, setDisplayName] = useState("");
@@ -37,6 +38,10 @@ export default function Signup() {
       createToast(error, "error");
     }
   }, [success, error, navigate]);
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <div className="flex container mt-8  mx-auto justify-center items-center dark:text-white p-7">

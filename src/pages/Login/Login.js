@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import useLogin from "../../hooks/useLogin";
 import useToast from "../../hooks/useToast";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../../components/Spinner";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -34,6 +35,10 @@ export default function Login() {
       createToast(error, "error");
     }
   }, [success, error, navigate]);
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <div className="flex container mt-8  mx-auto justify-center items-center dark:text-white p-7">

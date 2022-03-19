@@ -13,46 +13,44 @@ import useTheme from "./hooks/useTheme";
 import Login from "./pages/Login/Login";
 import RequireAuth from "./RequireAuth";
 import Signup from "./pages/Signup/Signup";
-import useAuthContext from "./hooks/useAuthContext";
+import Startup from "./components/Startup";
 
 function App() {
   const { themeMode, changeTheme } = useTheme();
-  const { authIsReady } = useAuthContext();
 
   return (
     <div className={`${themeMode}`}>
       <div className="App dark:bg-gray-800 transition-colors delay-75 ease-out h-screen w-100">
-        {authIsReady && (
-          <>
-            <BrowserRouter>
-              <Navbar mode={themeMode} changeMode={changeTheme} />
+        <Startup>
+          <BrowserRouter>
+            <Navbar mode={themeMode} changeMode={changeTheme} />
 
-              <Routes>
-                <Route path="/error" element={<Error />} />
-                <Route path="/" element={<Home />} />
+            <Routes>
+              <Route path="/error" element={<Error />} />
+              <Route path="/" element={<Home />} />
 
-                <Route element={<RequireAuth />}>
-                  <Route path="/profile" element={<Profile />} />
-                </Route>
+              <Route element={<RequireAuth />}>
+                <Route path="/profile" element={<Profile />} />
+              </Route>
 
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
 
-                <Route
-                  path="*"
-                  element={
-                    <Navigate
-                      to="/error"
-                      replace
-                      state={{ message: "Page Not Found" }}
-                    />
-                  }
-                />
-              </Routes>
-            </BrowserRouter>
-          </>
-        )}
-        <ToastContainer />
+              <Route
+                path="*"
+                element={
+                  <Navigate
+                    to="/error"
+                    replace
+                    state={{ message: "Page Not Found" }}
+                  />
+                }
+              />
+            </Routes>
+          </BrowserRouter>
+
+          <ToastContainer />
+        </Startup>
       </div>
     </div>
   );
