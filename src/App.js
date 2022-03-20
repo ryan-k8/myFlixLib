@@ -19,7 +19,7 @@ function App() {
   const { themeMode, changeTheme } = useTheme();
 
   return (
-    <div className={`${themeMode}`}>
+    <div className={`${themeMode} overflow-hidden`}>
       <div className="App dark:bg-gray-800 transition-colors delay-75 ease-out h-screen w-100">
         <Startup>
           <BrowserRouter>
