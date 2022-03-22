@@ -6,6 +6,7 @@
 @tailwind utilities;
 
 body {
+  @apply bg-white dark:bg-gray-800;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: "Poppins";
@@ -13,4 +14,18 @@ body {
 
 .active {
   @apply bg-indigo-600 dark:bg-blue-400;
+}
+
+.Toastify {
+  &__toast--warning {
+    @apply dark:bg-gray-800 dark:text-white;
+  }
+
+  &__toast--error {
+    @apply dark:bg-gray-800 dark:text-white;
+  }
+
+  &__toast-error {
+    @apply dark:bg-gray-800 dark:text-white;
+  }
 }
