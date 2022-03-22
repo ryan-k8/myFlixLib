@@ -1,5 +1,4 @@
 import { toast } from "react-toastify";
-
 import useTheme from "./useTheme";
 
 const useToast = (duration) => {

@@ -13,4 +13,15 @@ export const MOVIEDB_URIS = {
   popularURL: (type) => `/${type}/popular?page=1`,
   searchURL: (query, page) => `/search/multi?query=${query}&page=${page}`,
   detailURL: (type, id) => `/${type}/${id}`,
+  configURL: "/configuration",
+};
+
+export const MOVIEDB_MEDIA_CONFIG = {
+  baseURL: "http://image.tmdb.org/t/p/",
+  backdropBaseURL: function () {
+    return this.baseURL + "w1280";
+  },
+  posterBASEURL: function () {
+    return this.baseURL + "w342";
+  },
 };

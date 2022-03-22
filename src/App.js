@@ -20,7 +20,7 @@ function App() {
 
   return (
     <div className={`${themeMode} overflow-hidden`}>
-      <div className="App dark:bg-gray-800 transition-colors delay-75 ease-out h-screen w-100">
+      <div className="App dark:bg-gray-800 transition-colors overflow-y-auto delay-75 ease-out h-screen w-100">
         <Startup>
           <BrowserRouter>
             <Navbar mode={themeMode} changeMode={changeTheme} />

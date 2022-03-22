@@ -131,7 +131,7 @@ export default function Navbar({ mode, changeMode }) {
               </div>
               <div className="md:hidden relative">
                 <div
-                  className={`absolute hidden bottom-[-20px] top-[3.2rem] z-5 h-[13rem] rounded-md transition-all sm:w-[70vw]  right-2 p-5 text-black shadow-2xl shadow-indigo-600/15 border-3 border-slate-200 bg-white dark:bg-gray-700 dark:text-white w-[90vw] dark:border-none `}
+                  className={`absolute hidden bottom-[-20px] top-[3.2rem] z-[5000] h-[13rem] rounded-md transition-all sm:w-[70vw]  right-2 p-5 text-black shadow-2xl shadow-indigo-600/15 border-3 border-slate-200 bg-white dark:bg-gray-700 dark:text-white w-[90vw] dark:border-none `}
                   ref={mobileNavRef}
                 >
                   <ul className="flex flex-col h-14">
