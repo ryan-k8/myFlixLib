@@ -5,12 +5,14 @@ import { RiCloseFill } from "react-icons/ri";
 import { FaSignOutAlt, FaSignInAlt, FaHome, FaUser } from "react-icons/fa";
 
 import { MdDarkMode, MdLightMode } from "react-icons/md";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import useAuthContext from "../hooks/useAuthContext";
 import { useLogout } from "../hooks/useLogout";
+import SearchBox from "./SearchBox";
 
 export default function Navbar({ mode, changeMode }) {
   const [open, setOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const mobileNavRef = useRef();
 
   const { user: loggedIn } = useAuthContext();
@@ -32,8 +34,6 @@ export default function Navbar({ mode, changeMode }) {
     mobileNavRef.current.classList.add("hidden");
   };
 
-  const { pathname } = useLocation();
-
   const handleClickOutside = (event) => {
     if (
       mobileNavRef.current &&
@@ -52,15 +52,20 @@ export default function Navbar({ mode, changeMode }) {
   }, []);
 
   return (
-    <nav className="shadow-md w-full">
+    <nav className="relative shadow-md w-full">
       <div className="container py-3 mx-auto px-5">
         <div className="flex justify-between items-center">
-          <div className="App__logo">
-            <RiMovieFill
-              size={50}
-              className="text-indigo-600 cursor-pointer dark:text-blue-400"
-              onClick={() => navigate("/")}
-            />
+          <div className="App__logo flex gap-2">
+            <div>
+              <RiMovieFill
+                size={50}
+                className="text-indigo-600 cursor-pointer dark:text-blue-400"
+                onClick={() => navigate("/")}
+              />
+            </div>
+            {loggedIn && (
+              <SearchBox value={searchTerm} changeValue={setSearchTerm} />
+            )}
           </div>
           <div className="Nav__links">
             <ul className="h-full flex flex-row gap-5 justify-between items-center">
@@ -218,6 +223,10 @@ export default function Navbar({ mode, changeMode }) {
             </ul>
           </div>
         </div>
+
+        {loggedIn && (
+          <SearchBox value={searchTerm} changeValue={setSearchTerm} mobile />
+        )}
       </div>
     </nav>
   );

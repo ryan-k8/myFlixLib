@@ -28,7 +28,7 @@ export default function Login() {
   useEffect(() => {
     if (success) {
       createToast("logged in successfully!", "success");
-      navigate("/profile");
+      navigate("/");
     }
 
     if (error) {

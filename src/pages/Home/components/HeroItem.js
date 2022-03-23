@@ -23,10 +23,10 @@ export default function HeroItem({ title, overview, type, backdropUrl, link }) {
           <div className="hidden md:block text-white text-lg md:text-xl  sm:w-[60%] xl:w-[50%]">
             {overview}
           </div>
-          <div className="flex items-center sm:mx-3 h-full">
+          <div className="flex items-center sm:mx-3 mb-3 h-full">
             <Link
               to={link}
-              className="transition-all  text-xl rounded-md px-3 py-2 flex gap-2 items-center w-40  bg-indigo-600 dark:bg-gray-800 hover:scale-105 text-white cursor-pointer"
+              className="transition-all  text-xl rounded-md px-3 py-2  flex gap-2 items-center w-40  bg-indigo-600 dark:bg-gray-800 hover:scale-105 text-white cursor-pointer"
             >
               <AiFillEye className="text-white text-2xl md:text-3xl lg:text-4xl" />
               View
