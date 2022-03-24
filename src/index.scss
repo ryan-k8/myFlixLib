@@ -13,7 +13,7 @@ body {
 }
 
 .active {
-  @apply bg-indigo-600 dark:bg-blue-400;
+  @apply bg-indigo-600 dark:bg-blue-400 text-white;
 }
 
 .Toastify {

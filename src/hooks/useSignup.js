@@ -24,6 +24,8 @@ const useSignup = () => {
 
       await updateProfile(res.user, {
         displayName: displayName,
+        photoURL:
+          "https://firebasestorage.googleapis.com/v0/b/myflixlib.appspot.com/o/Portrait_Placeholder.png?alt=media&token=abfc5d5a-a551-44de-9326-38c1b4f42c48",
       });
 
       dispatch({ type: "LOGIN", payload: res.user });

@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { FaSearch } from "react-icons/fa";
 import useDebounce from "../hooks/useDebounce";
 import { Link, useNavigate } from "react-router-dom";
@@ -23,7 +23,7 @@ export default function SearchBox({ mobile, value, changeValue }) {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    if (value.trim() == "" || value.length < 3) {
+    if (value.trim() === "" || value.length < 3) {
       createToast("search query cannot be empty", "error");
       return;
     }
@@ -71,25 +71,25 @@ export default function SearchBox({ mobile, value, changeValue }) {
     setSearchResBoxOpen(false);
   };
 
-  const handleClickOutside = (event) => {
+  const handleClickOutside = useCallback((event) => {
     if (searchBoxRef.current && !searchBoxRef.current.contains(event.target)) {
       closeSearchResBox();
     } else {
       setSearchResBoxOpen(true);
     }
-  };
+  }, []);
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
     return () => {
       document.removeEventListener("click", handleClickOutside, true);
     };
-  }, []);
+  }, [handleClickOutside]);
 
   return (
     <div
       ref={searchBoxRef}
-      className={`relative transition all p-1 border-[2.3px] min-h-[40px] bg-white border-black dark:border-gray-400 hover:border-indigo-600 dark:hover:border-blue-400 rounded-[25px] ${typeStyles}`}
+      className={`relative transition all p-1 border-[1.6px] dark:border-[2.3px] min-h-[40px] bg-white border-black dark:border-gray-400 hover:border-indigo-600 dark:hover:border-blue-400 rounded-[25px] ${typeStyles}`}
     >
       <form onSubmit={onSubmit} className="flex items-center h-full w-full p-2">
         <FaSearch size={20} className />
@@ -118,7 +118,7 @@ export default function SearchBox({ mobile, value, changeValue }) {
               ))}
               <Link
                 to={"/search/" + debouncedSearchTerm}
-                className="block text-white w-full text-center  py-3 rounded bg-indigo-600 dark:bg-"
+                className="transition-colors block text-white w-full text-center  py-3 rounded bg-indigo-600 dark:bg-blue-400 hover:bg-indigo-500 dark:hover:bg-blue-500"
               >
                 View All Results
               </Link>
