@@ -1,10 +1,9 @@
-import { useState } from "react";
-import Navbar from "./components/Navbar";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import Error from "./pages/Error";
-
 import { ToastContainer } from "react-toastify";
+
 import "react-toastify/dist/ReactToastify.css";
+
+import Navbar from "./components/Navbar";
 
 //pages
 import Home from "./pages/Home/Home";
@@ -14,6 +13,8 @@ import Login from "./pages/Login/Login";
 import RequireAuth from "./RequireAuth";
 import Signup from "./pages/Signup/Signup";
 import Startup from "./components/Startup";
+import SearchProxy from "./pages/Search/SearchProxy";
+import Error from "./pages/Error";
 
 function App() {
   const { themeMode, changeTheme } = useTheme();
@@ -31,6 +32,7 @@ function App() {
 
               <Route element={<RequireAuth />}>
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/search/:query" element={<SearchProxy />} />
               </Route>
 
               <Route path="/login" element={<Login />} />

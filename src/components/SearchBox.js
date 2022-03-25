@@ -23,12 +23,12 @@ export default function SearchBox({ mobile, value, changeValue }) {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    if (value.trim() === "" || value.length < 3) {
+    if (value.trim() === "" || value.length < 2) {
       createToast("search query cannot be empty", "error");
       return;
     }
 
-    navigate("/search" + value);
+    navigate("/search/" + value);
     changeValue("");
   };
 
