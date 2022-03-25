@@ -14,7 +14,7 @@ export default function Search() {
 
   const [queryParams] = useSearchParams();
 
-  const [page] = useState(queryParams.get("page"));
+  const [page] = useState(queryParams.get("page") || 1);
 
   const [filteredResults, setFilteredResults] = useState(null);
 
