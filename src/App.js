@@ -14,6 +14,8 @@ import RequireAuth from "./RequireAuth";
 import Signup from "./pages/Signup/Signup";
 import Startup from "./components/Startup";
 import SearchProxy from "./pages/Search/SearchProxy";
+import MovieProxy from "./pages/Movie/MovieProxy";
+import TVproxy from "./pages/TV/TVProxy";
 import Error from "./pages/Error";
 
 function App() {
@@ -33,6 +35,8 @@ function App() {
               <Route element={<RequireAuth />}>
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/search/:query" element={<SearchProxy />} />
+                <Route path="/tv/:id" element={<TVproxy />} />
+                <Route path="/movie/:id" element={<MovieProxy />} />
               </Route>
 
               <Route path="/login" element={<Login />} />

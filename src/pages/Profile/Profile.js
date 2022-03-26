@@ -21,12 +21,14 @@ export default function Profile() {
 
   const formImageFile = useRef();
   const onFileSelected = (file) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
 
-    reader.onload = (e) => {
-      setPhotoURL(e.target.result);
-    };
+      reader.onload = (e) => {
+        setPhotoURL(e.target.result);
+      };
+    }
   };
 
   const handleSubmit = (e) => {
@@ -84,11 +86,11 @@ export default function Profile() {
             className="p-3 md:p-5 lg:p-6 h-full w-full flex flex-col items-center gap-y-2 lg:gap-y-3 rounded-lg"
             onSubmit={handleSubmit}
           >
-            <label className="h-3/6 max-w-[230px] relative group cursor-pointer">
+            <label className="h-3/6 max-h-[180px] min-w-[180px] w-auto max-w-[180px] relative group cursor-pointer">
               <img
                 src={photoURL}
                 alt={displayName}
-                className="h-full w-auto rounded-full shadow-md"
+                className="min-h-[180px] max-h-[180px] w-full rounded-full shadow-md"
               />
               <div className="transition-colors absolute top-0 flex justify-center items-center left-0 right-0 bottom-0 group-hover:bg-black/[0.5] bg-black/[0.35] rounded-full">
                 <FaCamera size={40} className="mt-5 text-white" />

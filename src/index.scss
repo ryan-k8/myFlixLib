@@ -17,6 +17,14 @@ body {
 }
 
 .Toastify {
+  &__toast {
+    @apply dark:bg-gray-800 dark:text-white;
+  }
+
+  &__toast-theme--dark {
+    @apply dark:bg-gray-800 dark:text-white;
+  }
+
   &__toast--warning {
     @apply dark:bg-gray-800 dark:text-white;
   }

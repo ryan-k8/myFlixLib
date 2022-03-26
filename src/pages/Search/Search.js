@@ -27,6 +27,9 @@ export default function Search() {
   useEffect(() => {
     if (data) {
       let helperData = resultsHelper(data);
+      helperData.results = helperData.results.filter(
+        (r) => r.type !== "person"
+      );
       setFilteredResults(helperData);
 
       if (typeFilter) {
@@ -87,6 +90,13 @@ export default function Search() {
             )}
           </div>
         </div>
+        <p className="text-3xl text-center dark:text-white p-1 my-2">
+          (
+          {filteredResults?.results?.length
+            ? filteredResults.results.length
+            : 0}
+          ) Results
+        </p>
         <div className="p-3 w-full md:w-90 mx-auto  place-items-center grid sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-4">
           {filteredResults &&
             filteredResults.results.map((item) => (

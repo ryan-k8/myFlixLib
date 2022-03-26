@@ -24,4 +24,8 @@ export const MOVIEDB_MEDIA_CONFIG = {
   posterBASEURL: function () {
     return this.baseURL + "w342";
   },
+
+  stillBaseURL: function () {
+    return this.baseURL + "w300";
+  },
 };

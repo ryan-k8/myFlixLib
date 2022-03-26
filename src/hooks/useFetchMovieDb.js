@@ -33,7 +33,7 @@ const useFetchMovieDb = (url) => {
             setLoading(false);
             setError("couldn't fetch data");
           }
-          console.log(err);
+          console.log(err.name);
         }
       }
     };
