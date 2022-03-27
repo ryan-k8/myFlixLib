@@ -16,7 +16,7 @@ import Startup from "./components/Startup";
 import SearchProxy from "./pages/Search/SearchProxy";
 import MovieProxy from "./pages/Movie/MovieProxy";
 import TVproxy from "./pages/TV/TVProxy";
-import Error from "./pages/Error";
+import NotFound from "./pages/NotFound";
 
 function App() {
   const { themeMode, changeTheme } = useTheme();
@@ -29,11 +29,9 @@ function App() {
             <Navbar mode={themeMode} changeMode={changeTheme} />
 
             <Routes>
-              <Route path="/error" element={<Error />} />
-              <Route path="/" element={<Home />} />
-
               <Route element={<RequireAuth />}>
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/" element={<Home />} />
                 <Route path="/search/:query" element={<SearchProxy />} />
                 <Route path="/tv/:id" element={<TVproxy />} />
                 <Route path="/movie/:id" element={<MovieProxy />} />
@@ -42,16 +40,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
 
-              <Route
-                path="*"
-                element={
-                  <Navigate
-                    to="/error"
-                    replace
-                    state={{ message: "Page Not Found" }}
-                  />
-                }
-              />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
 
