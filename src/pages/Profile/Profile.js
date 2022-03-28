@@ -46,7 +46,7 @@ export default function Profile() {
     if (error) {
       createToast(error, "error");
     }
-  }, [success, error]);
+  }, [success, error, createToast]);
 
   if (loading) {
     return <Spinner />;
@@ -54,7 +54,7 @@ export default function Profile() {
 
   return (
     <>
-      <div className="p-3 my-5 w-11/12 flex justify-center   md:w-9/12 lg:w-7/12 lg: mx-auto h-[70vh]">
+      <div className="p-3 my-5 w-11/12 flex justify-center   md:w-9/12 lg:w-7/12 lg: mx-auto">
         {!openEditForm && (
           <div className="p-3 h-full w-full flex flex-col items-center gap-y-1 sm:gap-y-2 rounded-lg">
             <img

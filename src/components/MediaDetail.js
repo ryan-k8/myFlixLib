@@ -44,7 +44,7 @@ export default function MediaDetail({ type, id }) {
     if (error) {
       createToast(error, "error");
     }
-  }, [data, documents, error, id]);
+  }, [data, documents, error, id, createToast]);
 
   const handleAddToLibrary = () => {
     addDoc(collection(db, "media"), {
