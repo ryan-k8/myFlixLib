@@ -37,6 +37,7 @@ export default function Library() {
           key={libraryDoc.dbId}
           setActiveMediaOpen={setActiveMediaOpen}
           libraryDoc={libraryDoc}
+          documents={documents}
         />
       )}
     </div>

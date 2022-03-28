@@ -1,4 +1,9 @@
-export default function ActiveMediaDetail({ filteredData, type }) {
+export default function ActiveMediaDetail({
+  filteredData,
+  type,
+  status,
+  handleStatusChange,
+}) {
   return (
     <div className="p-2 md:p-3 xl:p-6 w-full text-center md:text-left">
       <div className="lg:pl-3">
@@ -39,7 +44,8 @@ export default function ActiveMediaDetail({ filteredData, type }) {
           ))}
         </div>
         <select
-          defaultValue={null}
+          value={status}
+          onChange={handleStatusChange}
           className="p-1.5 lg:py-2 my-2 dark:text-white border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-md shadow-xl transition outline-none ease-in-out m-0 text-start"
         >
           <option value={"default"}>Change Status</option>

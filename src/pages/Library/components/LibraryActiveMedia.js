@@ -1,19 +1,31 @@
 import { useState, useEffect } from "react";
 import { FaArrowCircleLeft } from "react-icons/fa";
+import { doc, updateDoc } from "firebase/firestore";
 
 import Spinner from "../../../components/Spinner";
+import TVSeasonDetail from "./TVSeasonDetail";
+import ActiveMediaDetail from "./ActiveMediaDetail";
 
 import { MOVIEDB_URIS } from "../../../api/moviedb";
 import { detailsHelper } from "../../../utils/moviedb";
 
 import useFetchMovieDb from "../../../hooks/useFetchMovieDb";
-import ActiveMediaDetail from "./ActiveMediaDetail";
-import TVSeasonDetail from "./TVSeasonDetail";
+import useToast from "../../../hooks/useToast";
+import { db } from "../../../firebase/config";
 
-export default function LibraryActiveMedia({ libraryDoc, setActiveMediaOpen }) {
+export default function LibraryActiveMedia({
+  libraryDoc,
+  documents,
+  setActiveMediaOpen,
+}) {
   const { data, loading } = useFetchMovieDb(
     MOVIEDB_URIS.detailURL(libraryDoc.type, libraryDoc.id)
   );
+
+  const [activeDoc] = useState(documents.find((d) => d.id === libraryDoc.dbId));
+  const [activeDocStatus, setActiveDocStatus] = useState(activeDoc?.status);
+
+  const { createToast } = useToast(1200);
 
   const [mediaData, setMediaData] = useState(null);
 
@@ -23,6 +35,21 @@ export default function LibraryActiveMedia({ libraryDoc, setActiveMediaOpen }) {
       setMediaData(helperData);
     }
   }, [data]);
+
+  const handleStatusChange = (e) => {
+    const status = e.target.value;
+    try {
+      if (status !== "default") {
+        updateDoc(doc(db, "media", activeDoc.id), {
+          status: e.target.value,
+        });
+        createToast("updated status successfully", "success");
+        setActiveDocStatus(e.target.value);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   if (loading) {
     return <Spinner />;
@@ -41,7 +68,12 @@ export default function LibraryActiveMedia({ libraryDoc, setActiveMediaOpen }) {
           <FaArrowCircleLeft /> Library List
         </button>
       </div>
-      <ActiveMediaDetail filteredData={mediaData} type={libraryDoc.type} />
+      <ActiveMediaDetail
+        filteredData={mediaData}
+        handleStatusChange={handleStatusChange}
+        status={activeDocStatus}
+        type={libraryDoc.type}
+      />
 
       {libraryDoc.type === "tv" && (
         <TVSeasonDetail id={libraryDoc.id} seasons={mediaData?.seasons} />
