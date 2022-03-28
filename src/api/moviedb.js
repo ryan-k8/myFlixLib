@@ -12,6 +12,7 @@ export const MOVIEDB_URIS = {
   trendingURL: "/trending/all/week?page=1",
   popularURL: (type) => `/${type}/popular?page=1`,
   searchURL: (query, page) => `/search/multi?query=${query}&page=${page}`,
+  seasonURL: (id, number) => `/tv/${id}/season/${number}`,
   detailURL: (type, id) => `/${type}/${id}`,
   configURL: "/configuration",
 };

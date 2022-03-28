@@ -17,6 +17,7 @@ import SearchProxy from "./pages/Search/SearchProxy";
 import MovieProxy from "./pages/Movie/MovieProxy";
 import TVproxy from "./pages/TV/TVProxy";
 import NotFound from "./pages/NotFound";
+import Library from "./pages/Library/Library";
 
 function App() {
   const { themeMode, changeTheme } = useTheme();
@@ -30,9 +31,10 @@ function App() {
 
             <Routes>
               <Route element={<RequireAuth />}>
-                <Route path="/profile" element={<Profile />} />
                 <Route path="/" element={<Home />} />
+                <Route path="/profile" element={<Profile />} />
                 <Route path="/search/:query" element={<SearchProxy />} />
+                <Route path="/library" element={<Library />} />
                 <Route path="/tv/:id" element={<TVproxy />} />
                 <Route path="/movie/:id" element={<MovieProxy />} />
               </Route>
