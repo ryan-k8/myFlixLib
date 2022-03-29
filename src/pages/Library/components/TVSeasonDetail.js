@@ -1,13 +1,17 @@
+import { doc, updateDoc } from "firebase/firestore";
 import { useEffect, useMemo, useState } from "react";
+import useToast from "../../../hooks/useToast";
+
+import TVEpisodeItem from "./TVEpisodeItem";
 
 import moviedbapi, {
   API_DEFAULT_PARAMS,
   MOVIEDB_MEDIA_CONFIG,
 } from "../../../api/moviedb";
 import { MOVIEDB_URIS } from "../../../api/moviedb";
-import TVEpisodeItem from "./TVEpisodeItem";
+import { db } from "../../../firebase/config";
 
-export default function TVSeasonDetail({ id, seasons }) {
+export default function TVSeasonDetail({ id, seasons, activeDoc }) {
   const [selectedSeason, setSelectedSeason] = useState(1);
 
   const seasonURL = useMemo(
@@ -15,10 +19,44 @@ export default function TVSeasonDetail({ id, seasons }) {
     [selectedSeason, id]
   );
 
+  const { createToast } = useToast(1000);
+
   const [seasonData, setSeasonData] = useState(null);
 
   const handleSelectChange = (e) => {
     setSelectedSeason(e.target.value);
+  };
+
+  const handleEpisodeItemClick = ({ epNo, watched, seasonNo }) => {
+    let selectedSeason = activeDoc[seasonNo];
+
+    if (!selectedSeason) {
+      selectedSeason = seasonData.episodes.map((_, i) => {
+        if (epNo === i + 1) {
+          return { epNo: i + 1, watched };
+        }
+        return { epNo: i + 1, watched: false };
+      });
+    } else {
+      selectedSeason = selectedSeason.map((e) => {
+        if (e.epNo === epNo) {
+          return { epNo: epNo, watched: watched };
+        }
+
+        return e;
+      });
+
+      /* episode was added newly to the season */
+      const epInUserList = selectedSeason.find((e) => e.epNo === epNo);
+      if (!epInUserList) {
+        selectedSeason.push({ epNo: epNo, watched: watched });
+      }
+    }
+    const updateObject = {};
+    updateObject[seasonNo] = selectedSeason;
+
+    updateDoc(doc(db, "media", activeDoc.id), updateObject);
+    createToast("changed status !", "success");
   };
 
   useEffect(() => {
@@ -70,7 +108,16 @@ export default function TVSeasonDetail({ id, seasons }) {
         <div className="p-1 md:p-2 lg:p-3 w-full flex flex-col justify-start gap-2 md:gap-3 lg:gap-3.5">
           {seasonData?.episodes &&
             seasonData.episodes.map((e, index) => (
-              <TVEpisodeItem key={e.id} episode={e} number={index + 1} />
+              <TVEpisodeItem
+                key={e.id}
+                episode={e}
+                number={index + 1}
+                season={selectedSeason}
+                handleEpisodeItemClick={handleEpisodeItemClick}
+                watchedData={activeDoc[selectedSeason]?.find(
+                  (e) => e.epNo === index + 1
+                )}
+              />
             ))}
         </div>
       </div>
