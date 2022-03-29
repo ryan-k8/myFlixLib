@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { FaArrowCircleLeft } from "react-icons/fa";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 
 import Spinner from "../../../components/Spinner";
 import TVSeasonDetail from "./TVSeasonDetail";
@@ -22,8 +22,9 @@ export default function LibraryActiveMedia({
     MOVIEDB_URIS.detailURL(libraryDoc.type, libraryDoc.id)
   );
 
-  const [activeDoc] = useState(documents.find((d) => d.id === libraryDoc.dbId));
-  const [activeDocStatus, setActiveDocStatus] = useState(activeDoc?.status);
+  const [activeDoc, setActiveDoc] = useState(
+    documents.find((d) => d.id === libraryDoc.dbId)
+  );
 
   const { createToast } = useToast(1200);
 
@@ -36,6 +37,19 @@ export default function LibraryActiveMedia({
     }
   }, [data]);
 
+  useEffect(() => {
+    const unsub = onSnapshot(doc(db, "media", libraryDoc.dbId), (snapshot) => {
+      setActiveDoc({
+        id: snapshot.id,
+        ...snapshot.data(),
+      });
+    });
+
+    return () => {
+      unsub();
+    };
+  }, [libraryDoc.dbId]);
+
   const handleStatusChange = (e) => {
     const status = e.target.value;
     try {
@@ -44,7 +58,6 @@ export default function LibraryActiveMedia({
           status: e.target.value,
         });
         createToast("updated status successfully", "success");
-        setActiveDocStatus(e.target.value);
       }
     } catch (err) {
       console.log(err);
@@ -71,12 +84,16 @@ export default function LibraryActiveMedia({
       <ActiveMediaDetail
         filteredData={mediaData}
         handleStatusChange={handleStatusChange}
-        status={activeDocStatus}
+        status={activeDoc?.status}
         type={libraryDoc.type}
       />
 
       {libraryDoc.type === "tv" && (
-        <TVSeasonDetail id={libraryDoc.id} seasons={mediaData?.seasons} />
+        <TVSeasonDetail
+          id={libraryDoc.id}
+          seasons={mediaData?.seasons}
+          activeDoc={activeDoc}
+        />
       )}
     </div>
   );
